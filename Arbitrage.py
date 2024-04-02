@@ -55,7 +55,7 @@ def findArb(pairs, token_in, token_out):
 
     return circles
 
-def calculate_new_token(path, number):
+def calculate_new_token(path, number, show=False):
     previous_token = path[0]
     for token in path[1:]:
         if previous_token[5] < token[5]:
@@ -67,6 +67,8 @@ def calculate_new_token(path, number):
             balance = liquidity[(token0, token1)]
             Rx, Ry = balance[1], balance[0]
         number = (Ry * 0.997 * number) / (Rx + 0.997 * number)
+        if show:
+            print(f"{number} {token}")
         previous_token = token
     return number
 
@@ -84,3 +86,5 @@ for i in max_path[:-1]:
     print(f"{i}->", end='')
 print(f"{max_path[-1]}, tokenB balance={max_token}")
 
+print("\nHere is the out value for each swap")
+new_token_number = calculate_new_token(max_path, 5, show=True)
