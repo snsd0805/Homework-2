@@ -43,6 +43,10 @@ Please examine the mint function in the UniswapV2Pair contract. Upon initial liq
 
 > Solution
 
+這是為了避免早期 LP 惡意抬高流動性價格，造成他人沒有能力參與提供 liquidity，舉個例子：在 ETH/DAI 流動池中，若最早的 LP 放入 1 wei + 價值 2000 ether 的 DAI，則流動性單價會高達 (1+2000*10^18)，約為 2000 eth，因此散戶若只想提供很小的流動性 1 wei，就要付出價值 2000 ether 的 DAI。這會造成流動性不足，因此價格波動會非常劇烈。
+
+因此 Uniswap V2 限制 pool 中至少存在 MINIMUM_LIQUIDITY 流動性，因此第一次 mint LP token 時必須扣掉 MINIMUM_LIQUIDITY。
+
 ## Problem 4
 Investigate the minting function in the UniswapV2Pair contract. When depositing tokens (not for the first time), liquidity can only be obtained using a specific formula. What is the intention behind this?
 
