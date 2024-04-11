@@ -52,7 +52,7 @@ Investigate the minting function in the UniswapV2Pair contract. When depositing 
 
 > Solution
 
-在 [UniswapV2Pair] (https://github.com/Uniswap/v2-core/blob/ee547b17853e71ed4e0101ccfd52e70d5acded58/contracts/UniswapV2Pair.sol#L123) 的 line 123 的公式中，如果先都把 `totalSupply` 一起提出來，可以看到他要設定的 liquidity 是取 min( amount0/reserv0, amount1/reserv1)，也就是可以計算出你現在存入的 token0 是池裡所有 token0 的多少佔比，以及 token1 的佔比，最後的 liquidity 會取最小佔比的數值，例如今天存入的 token0 佔 10%、token1 佔 20 %，最終取得的 liquidity 會只有 10%。
+在 [UniswapV2Pair](https://github.com/Uniswap/v2-core/blob/ee547b17853e71ed4e0101ccfd52e70d5acded58/contracts/UniswapV2Pair.sol#L123) 的 line 123 的公式中，如果先都把 `totalSupply` 一起提出來，可以看到他要設定的 liquidity 是取 min( amount0/reserv0, amount1/reserv1)，也就是可以計算出你現在存入的 token0 是池裡所有 token0 的多少佔比，以及 token1 的佔比，最後的 liquidity 會取最小佔比的數值，例如今天存入的 token0 佔 10%、token1 佔 20 %，最終取得的 liquidity 會只有 10%。
 這麼設計是因為在 uniswap 中會希望池中的兩個 token 的比例要保持恆定，例如如果是 50/50 的池就希望能一直保持 50/50 的比例。而且這樣的機制不會把多投入的 token 轉回，因此使用者必須在 mint 前事先計算好要投入的 token0, token1，以保持池中比例恆定。
 
 ## Problem 5
